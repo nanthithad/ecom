@@ -29,13 +29,8 @@ jobs:
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo apt install ./google-chrome-stable_current_amd64.deb -y
 
-    - name: Install ChromeDriver
-      uses: nanasess/setup-chromedriver@v1
-      with:
-        chromedriver-version: latest
-
-    - name: Run Pytest
+    - name: Run Pytest (headless)
       run: |
+        # Export DISPLAY for headless Chrome
+        export DISPLAY=:99
         pytest --maxfail=1 --disable-warnings -v
-      env:
-        DISPLAY: :99
