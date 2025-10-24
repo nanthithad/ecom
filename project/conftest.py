@@ -1,10 +1,11 @@
+import os
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-import os
+from webdriver_manager.chrome import ChromeDriverManager
 
-# Update this path for local dev only; GitHub Actions will use installed chromedriver
-CHROMEDRIVER_PATH = r"C:\chromedriver-win64\chromedriver-win64\chromedriver.exe"
+# Existing Windows ChromeDriver path
+WINDOWS_CHROMEDRIVER_PATH = r"C:\chromedriver-win64\chromedriver-win64\chromedriver.exe"
 
 
 @pytest.fixture(scope="class")
@@ -12,23 +13,21 @@ def driver(request):
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
 
-    # Headless mode for CI (GitHub Actions)
+    # Headless for CI (Linux)
     if os.environ.get("GITHUB_ACTIONS") == "true":
         options.add_argument("--headless=new")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-gpu")
-
-    # Use local chromedriver for local dev
-    if os.environ.get("GITHUB_ACTIONS") == "true":
-        driver = webdriver.Chrome(options=options)
+        options.add_argument("--window-size=1920,1080")
+        # Use webdriver-manager for Linux/GitHub Actions
+        service = Service(ChromeDriverManager().install())
     else:
-        from selenium.webdriver.chrome.service import Service
-        service = Service(CHROMEDRIVER_PATH)
-        driver = webdriver.Chrome(service=service, options=options)
+        # Use local Windows chromedriver path
+        service = Service(WINDOWS_CHROMEDRIVER_PATH)
 
+    driver = webdriver.Chrome(service=service, options=options)
     driver.implicitly_wait(10)
-    request.cls.driver = driver
 
+    request.cls.driver = driver
     yield driver
     driver.quit()
