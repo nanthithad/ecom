@@ -1,6 +1,5 @@
 import os
 import pytest
-from selenium import webdriver
 from project.pages.login_page import LoginPage
 from project.utils.CSV_Utils import CSVUtils
 
@@ -9,9 +8,8 @@ csv_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "../testdata/
 test_data = CSVUtils.read_data(csv_file)
 
 @pytest.mark.parametrize("row", test_data)
-def test_login_csv(row):
-    driver = webdriver.Chrome()
-    driver.maximize_window()
+def test_login_csv(driver, row):  # ✅ Use the driver fixture here
+    # driver is automatically provided by conftest.py
 
     # Open nopCommerce admin login
     driver.get("https://admin-demo.nopcommerce.com/login")
@@ -24,4 +22,3 @@ def test_login_csv(row):
     assert "Dashboard" in driver.title or "admin" in driver.current_url
 
     print(f"Login tested with: {row['username']}/{row['password']}")
-    driver.quit()
