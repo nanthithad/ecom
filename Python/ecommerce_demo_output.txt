@@ -1,0 +1,22 @@
+================================================================
+               E  C  O  M  M  E  R  C  E    I N V O I C E
+================================================================
+Customer[d922ef6e] Aarav Sharma <aarav@example.com>
+  Address: 221B, MG Road, Bengaluru, India - 560001
+
+Order[8DADA780DE] for Aarav Sharma
+Items (4 total):
+  - 1 x Ultrabook Pro 14 (LAPTOP1) = 79999.00
+  - 2 x Ergo Mouse (MOUSE01) = 2598.00
+  - 1 x Mastering Python eBook (EBOOK01) = 999.00
+Subtotal: 83596.00
+Coupon: WELCOME10
+
+Discounted Subtotal: 75236.40
+Shipping (Standard): 96.80
+----------------------------------------------------------------
+Grand Total: 75333.20
+----------------------------------------------------------------
+Payment Tx: stripe_8aa1ce50ae29
+Order ID  : 8DADA780DE
+================================================================
